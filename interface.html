@@ -165,7 +165,7 @@
                 body: formData
             };
 
-            let response = await fetch(host + "/change_triage", request);
+            let response = await fetch(host + "/order/change_triage", request);
                 if (response.status == 200){
                 alert("Triage type has been changed!");
             }else{
@@ -247,7 +247,7 @@
 
         async function getDeptPending(){
             let host = "https://project2-backend-part2-2al0.onrender.com";
-            let response = await fetch(host + "pending_orders_dept");
+            let response = await fetch(host + "/order/pending_orders_dept");
             let result = await response.json();
             let table = document.getElementById("dept_orders");
             table.innerHTML = "";
