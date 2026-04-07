@@ -68,6 +68,20 @@
     <button onclick="completeSubmitOrder()">Submit Order</button>
     <br>
     <br>
+    <h2>Triage Strategy</h2>
+    <input type="radio" id="priority_first" name="triage" value="priority_first" onclick="changeTriage()" checked>
+    <label for="priority_first">Priority First</label>
+    <input type="radio" id="load_balancing" name="triage" value="load_balancing" onclick="changeTriage()">
+    <label for="load_balancing">Load Balancing</label>
+    <input type="radio" id="deadline_first" name="triage" value="deadline_first" onclick="changeTriage()">
+    <label for="deadline_first">Deadline First</label>
+    <br>
+    <label for="triage_dept"> Staff Dept: </label>
+    <select name="triage_dept" id="triage_dept">
+    <option value="pharmacy">Pharmacy</option>
+    <option value="lab">Lab</option>
+    <option value="radiology">radiology</option>
+    </select>
     <br>
     <h2>Pending Orders</h2>
     <label for="command_staff_name"> Fulfilling Staff: </label>
@@ -93,13 +107,28 @@
             <th>Actor</th>
             <th>Priority</th>
             <th>Status</th>
-            <th>Command</th>
         </tr>
         </thead>
         <tbody id="pending_orders">
         </tbody>
     </table>
     <br>
+    <br>
+    <h2>Department-Organized Orders</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Type</th>
+            <th>Patient</th>
+            <th>Actor</th>
+            <th>Priority</th>
+            <th>Status</th>
+            <th>Command</th>
+        </tr>
+        </thead>
+        <tbody id="dept_orders">
+        </tbody>
+    </table>
     <h2>Audit Logs</h2>
     <div class ="table-container">
         <table>
@@ -114,7 +143,36 @@
     </div>
     
     
+    <!--Changing Triage-->
+    <script>
+        async function changeTriage(){
+            let host = "https://project2-backend-part2-2al0.onrender.com";
+            let triage_type = "";
+            let dept_type = document.getElementById("triage_dept").value;
+            if (document.getElementById("priority_first").checked){
+            triage_type = "priority_first";
+            } else if (document.getElementById("load_balancing").checked){
+            triage_type = "load_balancing";
+            } else if (document.getElementById("deadline_first").checked){
+            triage_type = "deadline_first"
+            }
 
+            let formData = new FormData();
+            formData.append("triage_type", triage_type);
+            formData.append("dept_type", dept_type)
+            let request = {
+                method: "POST",
+                body: formData
+            };
+
+            let response = await fetch(host + "/change_triage", request);
+                if (response.status == 200){
+                alert("Triage type has been changed!");
+            }else{
+                alert("Something went wrong! Triage type could not be changed!");
+            }
+        }
+    </script>
 
     <!--Audit Log-->
     <script>
@@ -147,6 +205,51 @@
             let response = await fetch(host + "/order/pending_orders");
             let result = await response.json();
             let table = document.getElementById("pending_orders");
+            table.innerHTML = "";
+
+            for (const entry of result){
+                let type = entry.type;
+                let id = entry.orderId;
+                let patient = entry.patientName;
+                let staff = entry.staff.name;
+                let priority = entry.priority;
+                let status = entry.status;
+
+
+                let row = document.createElement("tr");
+                let cell1 = document.createElement("td");
+                cell1.textContent = type;
+                row.appendChild(cell1);
+                table.appendChild(row);
+
+                let cell2 = document.createElement("td");
+                cell2.textContent = patient;
+                row.appendChild(cell2);
+                table.appendChild(row);
+
+                let cell3 = document.createElement("td");
+                cell3.textContent = staff;
+                row.appendChild(cell3);
+                table.appendChild(row);
+
+                let cell4 = document.createElement("td");
+                cell4.textContent = priority;
+                row.appendChild(cell4);
+                table.appendChild(row);
+
+                let cell5 = document.createElement("td");
+                cell5.textContent = status;
+                row.appendChild(cell5);
+                table.appendChild(row);   
+
+           }
+        }
+
+        async function getDeptPending(){
+            let host = "https://project2-backend-part2-2al0.onrender.com";
+            let response = await fetch(host + "pending_orders_dept");
+            let result = await response.json();
+            let table = document.getElementById("dept_orders");
             table.innerHTML = "";
 
             for (const entry of result){
