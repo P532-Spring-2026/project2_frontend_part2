@@ -119,7 +119,7 @@
     <!--Audit Log-->
     <script>
         async function getLogs(){
-            let host = "https://project2-backend-zgb6.onrender.com";
+            let host = "https://project2-backend-part2-2al0.onrender.com";
             let response = await fetch(host + "/order/audit_log");
             let result = await response.json();
             let table = document.getElementById("logs");
@@ -143,7 +143,7 @@
     <!--Pending Orders-->
     <script>
         async function getPending(){
-            let host = "https://project2-backend-zgb6.onrender.com";
+            let host = "https://project2-backend-part2-2al0.onrender.com";
             let response = await fetch(host + "/order/pending_orders");
             let result = await response.json();
             let table = document.getElementById("pending_orders");
@@ -215,7 +215,7 @@
             } else if(!document.getElementById("Fulfilling_Staff").checked){
                 alert("Only fulfilling staff can claim orders! Command not executed");
             } else{
-                let host = "https://project2-backend-zgb6.onrender.com";
+                let host = "https://project2-backend-part2-2al0.onrender.com";
                 let formData = new FormData();
                 formData.append("staff_name", staff_name);
                 formData.append("staff_dept", staff_dept)
@@ -242,7 +242,7 @@
                 alert("Only fulfilling staff can complete orders! Command not executed");
             } else{
                 let order_id = id;
-                let host = "https://project2-backend-zgb6.onrender.com";
+                let host = "https://project2-backend-part2-2al0.onrender.com";
                 let formData = new FormData();
                 formData.append("staff_name", staff_name);
                 formData.append("order_id", order_id);
@@ -269,7 +269,7 @@
                 alert("Only clinicians can cancel pending orders! Command not executed");
             } else {
                 let order_id = id;
-                let host = "https://project2-backend-zgb6.onrender.com";
+                let host = "https://project2-backend-part2-2al0.onrender.com";
                 let formData = new FormData();
                 formData.append("staff_name", staff_name);
                 formData.append("order_id", order_id);
@@ -308,7 +308,7 @@
                 alert("Order submission not completed! One or more input fields are missing!")
             } else {
 
-                let host = "https://project2-backend-zgb6.onrender.com";
+                let host = "https://project2-backend-part2-2al0.onrender.com";
                 let patient_name = document.getElementById("form_pt_name").value;
                 let clinician_name = document.getElementById("form_cl_name").value;
                 let description = document.getElementById("form_description").value;
