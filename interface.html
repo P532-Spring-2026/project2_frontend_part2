@@ -146,6 +146,7 @@
     <!--Changing Triage-->
     <script>
         async function changeTriage(){
+            alert("function started!")
             let host = "https://project2-backend-part2-2al0.onrender.com";
             let triage_type = "";
             let dept_type = document.getElementById("triage_dept").value;
@@ -165,8 +166,10 @@
                 body: formData
             };
 
+
             let response = await fetch(host + "/order/change_triage", request);
-                if (response.status == 200){
+            alert("dispatched response!")
+            if (response.status == 200){
                 alert("Triage type has been changed!");
             }else{
                 alert("Something went wrong! Triage type could not be changed!");
