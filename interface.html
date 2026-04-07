@@ -146,7 +146,6 @@
     <!--Changing Triage-->
     <script>
         async function changeTriage(){
-            alert("function started!")
             let host = "https://project2-backend-part2-2al0.onrender.com";
             let triage_type = "";
             let dept_type = document.getElementById("triage_dept").value;
@@ -168,12 +167,12 @@
 
 
             let response = await fetch(host + "/order/change_triage", request);
-            alert("dispatched response!")
             if (response.status == 200){
                 alert("Triage type has been changed!");
             }else{
                 alert("Something went wrong! Triage type could not be changed!");
             }
+            getDeptPending(dept_type);
         }
     </script>
 
@@ -203,11 +202,12 @@
 
     <!--Pending Orders-->
     <script>
-        async function getPending(){
+        async function getDeptPending(dept){
+            let string_dept = dept;
             let host = "https://project2-backend-part2-2al0.onrender.com";
-            let response = await fetch(host + "/order/pending_orders");
+            let response = await fetch(host + "/order/pending_orders_dept?dept=" + dept);
             let result = await response.json();
-            let table = document.getElementById("pending_orders");
+            let table = document.getElementById("dept_orders");
             table.innerHTML = "";
 
             for (const entry of result){
@@ -244,9 +244,74 @@
                 cell5.textContent = status;
                 row.appendChild(cell5);
                 table.appendChild(row);   
+           }
+        }
+
+        
+        async function getPending(){
+            let host = "https://project2-backend-part2-2al0.onrender.com";
+            let response = await fetch(host + "/order/pending_orders");
+            let result = await response.json();
+            let table = document.getElementById("pending_orders");
+            table.innerHTML = "";
+
+            for (const entry of result){
+                let type = entry.type;
+                let id = entry.orderId;
+                let patient = entry.patientName;
+                let staff = entry.staff.name;
+                let priority = entry.priority;
+                let status = entry.status;
+                let complete_btn = document.createElement("button");
+                complete_btn.textContent ="Complete";
+                let cancel_btn = document.createElement("button");
+                cancel_btn.textContent ="Cancel";
+                complete_btn.addEventListener("click", () => {
+                    completeCompleteCommand(id)
+                });
+                cancel_btn.addEventListener("click", () => {
+                    completeCancelCommand(id)
+                });
+
+
+                let row = document.createElement("tr");
+                let cell1 = document.createElement("td");
+                cell1.textContent = type;
+                row.appendChild(cell1);
+                table.appendChild(row);
+
+                let cell2 = document.createElement("td");
+                cell2.textContent = patient;
+                row.appendChild(cell2);
+                table.appendChild(row);
+
+                let cell3 = document.createElement("td");
+                cell3.textContent = staff;
+                row.appendChild(cell3);
+                table.appendChild(row);
+
+                let cell4 = document.createElement("td");
+                cell4.textContent = priority;
+                row.appendChild(cell4);
+                table.appendChild(row);
+
+                let cell5 = document.createElement("td");
+                cell5.textContent = status;
+                row.appendChild(cell5);
+                table.appendChild(row);
+
+                let cell6 = document.createElement("td");
+                if(status == "IN_PROGRESS"){
+                    cell6.appendChild(complete_btn);
+                } else if (status == "PENDING"){
+                    cell6.appendChild(cancel_btn);
+                }
+                row.appendChild(cell6);
+                table.appendChild(row);    
 
            }
         }
+
         getPending();
         setInterval(getPending, 3000);
         
