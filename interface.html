@@ -152,6 +152,9 @@
     <br>
     <br>
     <h2>Audit Logs</h2>
+        <label for="audit_length">Log Length: </label>
+            <span id="audit_length">0</span>
+            <br>
         <div class ="table-container">
             <table>
                 <thead>
@@ -169,8 +172,10 @@
     <script>
         async function completeUndo(){
             let host = "https://project2-backend-part2-2al0.onrender.com";
-
-            let request = {
+            if(!document.getElementById("Admin").checked){
+                alert("Only admin can complete Undo action!")
+            } else{
+                let request = {
                 method: "POST",
               };
 
@@ -183,6 +188,9 @@
               }else{
                 alert("Something went wrong! Latest command could not be undone!");
               }
+            }
+
+            
         }
     </script>
 
@@ -192,8 +200,13 @@
             let host = "https://project2-backend-part2-2al0.onrender.com";
             let index = document.getElementById("replay_index").value;
 
-
-            let formData = new FormData();
+            if(index.trim() == ""){
+                alert("Input for index must be entered");
+            } else if(!document.getElementById("Admin").checked){
+                alert("Only Admin can complete Replay action!")
+            }
+            else{
+                let formData = new FormData();
               formData.append("index", index);
               
               let request = {
@@ -210,6 +223,10 @@
               }else{
                 alert("Something went wrong! Command could not be replayed!");
               }
+            }
+
+
+            
         }
     </script>
     
@@ -258,7 +275,7 @@
               let ans_string = "" + result;
               
 
-              document.getElementById("notifs_counter_c").textContent = ans_string
+              document.getElementById("notifs_counter_c").textContent = ans_string;
         
             }
 
@@ -310,7 +327,7 @@
               let ans_string = "" + result;
               
 
-              document.getElementById("notifs_counter_f").textContent = ans_string
+              document.getElementById("notifs_counter_f").textContent = ans_string;
         
             }
 
@@ -363,6 +380,7 @@
             let response = await fetch(host + "/order/audit_log");
             let result = await response.json();
             let table = document.getElementById("logs");
+            document.getElementById("audit_length").textContent = result.length;
             table.innerHTML = "";
 
             for (const entry of result){
