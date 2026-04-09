@@ -34,101 +34,291 @@
     <h1>Hospital System</h1>
     <br>
     <h2>Role Selection</h2>
-    <input type="radio" id="Clinician" name="role" value="clinician">
-    <label for="Clinician">Clinician</label>
-    <input type="radio" id="Fulfilling_Staff" name="role" value="f_staff">
-    <label for="Fulfilling_Staff">Fulfilling Staff</label>
+        <input type="radio" id="Clinician" name="role" value="clinician">
+        <label for="Clinician">Clinician</label>
+        <input type="radio" id="Fulfilling_Staff" name="role" value="f_staff">
+        <label for="Fulfilling_Staff">Fulfilling Staff</label>
+        <input type="radio" id="Admin" name="role" value="admin">
+        <label for="Admin">Admin</label>
 
+    <br>     
+    <h2>Admin Actions</h2>
+    <button onclick="completeUndo()">Undo</button>
+    <br>
+    <br>
+    <label for="replay_index"> Audit Index: </label>
+    <input id="replay_index"/>
+    <button onclick="completeReplay()">Replay</button>
+    <br>
     <h2>Order Form</h2>
 
-    <label for="form_pt_name"> Patient Name: </label>
-    <input id="form_pt_name"/>
-    
-    <label for="form_description"> Description: </label>
-    <input id="form_description"/>
+        <label for="form_pt_name"> Patient Name: </label>
+        <input id="form_pt_name"/>
+        
+        <label for="form_description"> Description: </label>
+        <input id="form_description"/>
 
-    <label for="order_type"> Order Type: </label>
-    <select name="order_type" id="order_type">
-    <option value="medication">Medication</option>
-    <option value="lab">Lab</option>
-    <option value="imaging">Imaging</option>
-    </select>
+        <label for="order_type"> Order Type: </label>
+        <select name="order_type" id="order_type">
+        <option value="medication">Medication</option>
+        <option value="lab">Lab</option>
+        <option value="imaging">Imaging</option>
+        </select>
 
-    <label for="priority_type"> Priority: </label>
-    <select name="priority_type" id="priority_type">
-    <option value="STAT">STAT</option>
-    <option value="URGENT">URGENT</option>
-    <option value="ROUTINE">ROUTINE</option>
-    </select>
+        <label for="priority_type"> Priority: </label>
+        <select name="priority_type" id="priority_type">
+        <option value="STAT">STAT</option>
+        <option value="URGENT">URGENT</option>
+        <option value="ROUTINE">ROUTINE</option>
+        </select>
 
-    <label for="form_cl_name"> Clinician: </label>
-    <input id="form_cl_name"/>
-    <br>
-    <br>
-    <button onclick="completeSubmitOrder()">Submit Order</button>
+        <label for="form_cl_name"> Clinician: </label>
+        <input id="form_cl_name"/>
+        <br>
+        <br>
+        <button onclick="completeSubmitOrder()">Submit Order</button>
     <br>
     <br>
     <h2>Triage Strategy</h2>
-    <input type="radio" id="priority_first" name="triage" value="priority_first" onclick="changeTriage()" checked>
-    <label for="priority_first">Priority First</label>
-    <input type="radio" id="load_balancing" name="triage" value="load_balancing" onclick="changeTriage()">
-    <label for="load_balancing">Load Balancing</label>
-    <input type="radio" id="deadline_first" name="triage" value="deadline_first" onclick="changeTriage()">
-    <label for="deadline_first">Deadline First</label>
+        <input type="radio" id="priority_first" name="triage" value="priority_first" onclick="changeTriage()" checked>
+        <label for="priority_first">Priority First</label>
+        <input type="radio" id="load_balancing" name="triage" value="load_balancing" onclick="changeTriage()">
+        <label for="load_balancing">Load Balancing</label>
+        <input type="radio" id="deadline_first" name="triage" value="deadline_first" onclick="changeTriage()">
+        <label for="deadline_first">Deadline First</label>
+        <br>
+        <br>
+        <label for="triage_dept"> Staff Dept: </label>
+        <select name="triage_dept" id="triage_dept">
+        <option value="pharmacy">Pharmacy</option>
+        <option value="lab">Lab</option>
+        <option value="radiology">radiology</option>
+        </select>
     <br>
-    <label for="triage_dept"> Staff Dept: </label>
-    <select name="triage_dept" id="triage_dept">
-    <option value="pharmacy">Pharmacy</option>
-    <option value="lab">Lab</option>
-    <option value="radiology">radiology</option>
-    </select>
+    <br>
+    <h2>Notification Services</h2>
+        <h3>Clinician</h3>
+            <label for="notifs_counter_c">Dashboard Notifications: </label>
+            <span id="notifs_counter_c">0</span>
+            <br>
+            <input type="checkbox" id="console_notif_c" name="notifs" value="console" onclick="changeCNotif()">
+            <label for="console_notif_c">Console</label>
+            <input type="checkbox" id="email_notif_c" name="notifs" value="email" onclick="changeCNotif()">
+            <label for="email_notif_c">E-Mail</label>
+            <input type="checkbox" id="dashboard_notif_c" name="notifs" value="dashboard" onclick="changeCNotif()">
+            <label for="dashboard_notif_c">Dashboard</label>
+        <h3>Fulfilling Staff</h3>
+            <label for="notifs_counter_f">Dashboard Notifications: </label>
+            <span id="notifs_counter_f">0</span>
+            <br>
+            <input type="checkbox" id="console_notif_f" name="notifs" value="console" onclick="changeFNotif()">
+            <label for="console_notif_f">Console</label>
+            <input type="checkbox" id="email_notif_f" name="notifs" value="email" onclick="changeFNotif()">
+            <label for="email_notif_f">E-Mail</label>
+            <input type="checkbox" id="dashboard_notif_f" name="notifs" value="dashboard" onclick="changeFNotif()">
+            <label for="dashboard_notif_f">Dashboard</label>
+    <br>
     <br>
     <h2>Pending Orders</h2>
-    <label for="command_staff_name"> Fulfilling Staff: </label>
-    <input id="command_staff_name"/>
-    <label for="staff_dept"> Staff Dept: </label>
-    <select name="staff_dept" id="staff_dept">
-    <option value="pharmacy">Pharmacy</option>
-    <option value="lab">Lab</option>
-    <option value="radiology">radiology</option>
-    </select>
-    <br>
-    <br>
-    <label for="command_clinician_name"> Clinician Name: </label>
-    <input id="command_clinician_name"/>
-    <br>
-    <br>
-    <button onclick="completeClaimCommand()">Claim Order</button>
-    <table>
-        <thead>
-        <tr>
-            <th>Type</th>
-            <th>Patient</th>
-            <th>Actor</th>
-            <th>Priority</th>
-            <th>Status</th>
-            <th>Command</th>
-        </tr>
-        </thead>
-        <tbody id="pending_orders">
-        </tbody>
-    </table>
+        <label for="command_staff_name"> Fulfilling Staff: </label>
+        <input id="command_staff_name"/>
+        <label for="staff_dept"> Staff Dept: </label>
+        <select name="staff_dept" id="staff_dept">
+        <option value="pharmacy">Pharmacy</option>
+        <option value="lab">Lab</option>
+        <option value="radiology">radiology</option>
+        </select>
+        <br>
+        <br>
+        <label for="command_clinician_name"> Clinician Name: </label>
+        <input id="command_clinician_name"/>
+        <br>
+        <br>
+        <button onclick="completeClaimCommand()">Claim Order</button>
+        <table>
+            <thead>
+            <tr>
+                <th>Type</th>
+                <th>Patient</th>
+                <th>Actor</th>
+                <th>Priority</th>
+                <th>Status</th>
+                <th>Command</th>
+            </tr>
+            </thead>
+            <tbody id="pending_orders">
+            </tbody>
+        </table>
     <br>
     <br>
     <h2>Audit Logs</h2>
-    <div class ="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Log</th>
-                </tr>
-            </thead>
-            <tbody id="logs">
-            </tbody>
-        </table>
-    </div>
+        <div class ="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Log</th>
+                    </tr>
+                </thead>
+                <tbody id="logs">
+                </tbody>
+            </table>
+        </div>
     
+
+    <!---Undo-->
+    <script>
+        async function completeUndo(){
+            let host = "https://project2-backend-part2-2al0.onrender.com";
+
+            let request = {
+                method: "POST",
+              };
+
+              let response = await fetch(host + "/order/undo_command", request);
+              let msg = await response.text();
+              if (response.status == 200){
+                alert("Latest command undone!")
+              } else if(response.status == 400){
+                alert(msg);
+              }else{
+                alert("Something went wrong! Latest command could not be undone!");
+              }
+        }
+    </script>
+
+    <!---Replay-->
+    <script>
+        async function completeReplay(){
+            let host = "https://project2-backend-part2-2al0.onrender.com";
+            let index = document.getElementById("replay_index").value;
+
+
+            let formData = new FormData();
+              formData.append("index", index);
+              
+              let request = {
+                method: "POST",
+                body: formData
+              };
+
+              let response = await fetch(host + "/order/replay_command", request);
+              let msg = await response.text();
+              if (response.status == 200){
+                alert("Command replayed!")
+              } else if(response.status == 400){
+                alert(msg);
+              }else{
+                alert("Something went wrong! Command could not be replayed!");
+              }
+        }
+    </script>
     
+
+    <!---Notifications Clinicians-->
+  <script>
+        async function changeCNotif(){
+              let host = "https://project2-backend-part2-2al0.onrender.com";
+              let notifs = [];
+              let role = "clinician";
+              if (document.getElementById("console_notif_c").checked){
+                notifs.push("console")
+              } if (document.getElementById("email_notif_c").checked){
+                notifs.push("email")
+              } if (document.getElementById("dashboard_notif_c").checked){
+                notifs.push("dashboard")
+              }
+
+              let formData = new FormData();
+              formData.append("notifs", notifs);
+              formData.append("role", role);
+
+
+              let request = {
+                method: "POST",
+                body: formData
+              };
+
+              let response = await fetch(host + "/order/change_notif", request);
+              let msg = await response.text();
+              if (response.status == 200){
+                alert("Notifs succesfully changed!")
+              } else if(response.status == 400){
+                alert(msg);
+              }else{
+                alert("Something went wrong! Notifs could not be changed!");
+              }
+            }
+
+            async function getCount_C() {
+              let host = "https://project2-backend-part2-2al0.onrender.com";
+              
+              let response = await fetch(host + "/order/dash_counter" + "?role=clinician");
+
+              let result = await response.json();
+              let ans_string = "" + result;
+              
+
+              document.getElementById("notifs_counter_c").textContent = ans_string
+        
+            }
+
+        getCount_C();
+        setInterval(getCount_C, 2000);
+    </script>
+
+    <!---Notifications Fulfilling Staff-->
+  <script>
+        async function changeFNotif(){
+              let host = "https://project2-backend-part2-2al0.onrender.com";
+              let notifs = [];
+              let role = "fstaff";
+              if (document.getElementById("console_notif_f").checked){
+                notifs.push("console")
+              } if (document.getElementById("email_notif_f").checked){
+                notifs.push("email")
+              } if (document.getElementById("dashboard_notif_f").checked){
+                notifs.push("dashboard")
+              }
+
+              let formData = new FormData();
+              formData.append("notifs", notifs);
+              formData.append("role", role);
+
+
+              let request = {
+                method: "POST",
+                body: formData
+              };
+
+              let response = await fetch(host + "/order/change_notif", request);
+              let msg = await response.text();
+              if (response.status == 200){
+                alert("Notifs succesfully changed!")
+              } else if(response.status == 400){
+                alert(msg);
+              }else{
+                alert("Something went wrong! Notifs could not be changed!");
+              }
+            }
+
+            async function getCount_F() {
+              let host = "https://project2-backend-part2-2al0.onrender.com";
+              
+              let response = await fetch(host + "/order/dash_counter" + "?role=fstaff");
+
+              let result = await response.json();
+              let ans_string = "" + result;
+              
+
+              document.getElementById("notifs_counter_f").textContent = ans_string
+        
+            }
+
+        getCount_F();
+        setInterval(getCount_F, 2000);
+    </script>
+
+
     <!--Changing Triage-->
     <script>
         async function changeTriage(){
@@ -153,13 +343,18 @@
 
 
             let response = await fetch(host + "/order/change_triage", request);
+            let msg = await response.text();
             if (response.status == 200){
                 alert("Triage type has been changed!");
-            }else{
+            }else if(response.status == 400){
+                alert(msg);
+            }
+            else{
                 alert("Something went wrong! Triage type could not be changed!");
             }
         }
     </script>
+
 
     <!--Audit Log-->
     <script>
@@ -272,8 +467,11 @@
                 };
 
                 let response = await fetch(host + "/order/claim", request);
-                    if (response.status == 200){
+                let msg = await response.text();
+                if (response.status == 200){
                     alert("Order has been claimed!");
+                }else if (response.status == 400){
+                    alert(msg);
                 }else{
                     alert("Something went wrong! Order could not be claimed!");
                 }
@@ -301,10 +499,14 @@
                 };
 
                 let response = await fetch(host + "/order/complete", request);
-                    if (response.status == 200){
+                let msg = await response.text();
+                if (response.status == 200){
                     alert("Order has been completed!");
-                }else{
-                    alert("Something went wrong! Order coudld not be completed!");
+                }else if (response.status == 400){
+                    alert(msg);
+                }
+                else{
+                    alert("Something went wrong! Order could not be completed!");
                 }
             }
             
@@ -328,10 +530,14 @@
                 };
 
                 let response = await fetch(host + "/order/cancel", request);
-                    if (response.status == 200){
+                let msg = await response.text();
+                if (response.status == 200){
                     alert("Order has been canceled!")
-                }else{
-                    alert("Something went wrong! Order coudld not be canceled!")
+                }else if(response.status == 400){
+                    alert(msg);
+                }
+                else{
+                    alert("Something went wrong! Order could not be canceled!")
                 }
             }
             
@@ -379,9 +585,13 @@
                 };
 
                 let response = await fetch(host + "/order/submit", request);
-                    if (response.status == 200){
+                let msg = await response.text();
+                if (response.status == 200){
                     alert("Order has been submitted!")
-                }else{
+                }else if (response.status == 400){
+                    alert(msg);
+                }
+                else{
                     alert("Something went wrong! Order could not be submitted.")
                 }
 
